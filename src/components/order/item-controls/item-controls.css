@@ -1,0 +1,30 @@
+.item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 25%;
+}
+
+.item-control {
+    width: 25%;
+}
+
+.item .item-shape {
+    width: 80px;
+    height: 80px;
+}
+
+.item .item-name {
+    font-size: 15px;
+}
+
+@media (max-width: 576px) {
+    .item .item-shape {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .item .item-name {
+        font-size: 13px;
+    }
+}
