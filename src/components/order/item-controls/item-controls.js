@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './item-controls.css';
 import _ from 'lodash';
+import {getItemComponent} from '../../food/index';
 
 class ItemControls extends Component {
 
@@ -20,7 +21,7 @@ class ItemControls extends Component {
                     </div>
 
                     <div className="item">
-                        <div className="item-shape">{item.component}</div>
+                        <div className="item-shape">{getItemComponent(name)}</div>
                         <div className="item-name">{item.name}</div>
                     </div>
 

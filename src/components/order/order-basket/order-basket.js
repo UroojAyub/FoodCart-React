@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import './order-basket.css';
 import _ from 'lodash';
+import {getItemComponent} from '../../food/index';
 
 export default class OrderBasket extends Component {
 
@@ -11,7 +12,7 @@ export default class OrderBasket extends Component {
                     return (
                         <li className="list-group-item d-flex flex-row" key={name}>
                             <div className="list-item-img">
-                                {item.component}
+                               {getItemComponent(name)}
                             </div>
                             <div className="list-item-data">
                                 <div>Name:
@@ -54,7 +55,7 @@ export default class OrderBasket extends Component {
                             <h4>Basket</h4>
                         </div>
                         <div className="d-flex">
-                            <button type="button" class="btn btn-primary btn-sm" disabled={checkoutDisable}>Checkout</button>
+                            <button type="button" className="btn btn-primary btn-sm" disabled={checkoutDisable}>Checkout</button>
                         </div>
                     </div>
                     <div className="card-body text-center">
