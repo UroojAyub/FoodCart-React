@@ -7,6 +7,7 @@ import {Field, reduxForm} from 'redux-form';
 import _ from 'lodash';
 import withLoader from '../../hoc/withLoader/withLoader';
 import {compose} from 'redux';
+import * as actions from '../../actions/index';
 
 class Auth extends Component {
 
@@ -35,7 +36,6 @@ class Auth extends Component {
                         ? error
                         : ''}
                 </small>
-
             </div>
         )
     }
@@ -43,7 +43,7 @@ class Auth extends Component {
     renderForm = (fields) => {
 
         return (
-            <div >
+            <div>
                 {_.map(fields, (config, title) => {
                     return (<Field
                         element={config.element}
@@ -53,9 +53,7 @@ class Auth extends Component {
                         validate={config.validate}
                         component={this.renderField}
                         key={title}/>)
-                })
-}
-
+                })}
             </div>
         )
 
@@ -76,7 +74,8 @@ class Auth extends Component {
                 <p className="text-foot">
                     Don't have an account?
                     <Link to="/signup">
-                        Register</Link>
+                        Register
+                    </Link>
                 </p>
             )
             : (
@@ -87,6 +86,12 @@ class Auth extends Component {
                 </p>
             )
 
+        const error = this.props.authError
+            ? <p className="text-foot text-danger text-center">
+                    {this.props.authError}
+                </p>
+            : null;
+
         return (
             <div className="container">
                 <div className="row">
@@ -95,12 +100,13 @@ class Auth extends Component {
                             <div className="card-body">
                                 <h4 className="card-title text-center my-4">{formTitle}</h4>
                                 <form className="needs-validation" onSubmit={handleSubmit(this.onSubmit)}>
-
                                     {this.renderForm(fields)}
                                     {switchText}
-
+                                    {error}
                                     <div className="text-center my-2">
-                                        <button className="btn btn-primary btn-danger" type="submit">{formTitle}</button>
+                                        <button className="btn btn-primary btn-danger" type="submit">
+                                            {formTitle}
+                                        </button>
                                     </div>
                                     <hr className="my-4"/>
                                 </form>
@@ -115,10 +121,20 @@ class Auth extends Component {
     onSubmit = (values) => {
         this
             .props
-            .showLoader()
-        console.log(this.props)
-        console.log(values)
+            .showLoader();
+        if (this.props.mode === AUTH_MODE.SIGN_IN) {
+            this
+                .props
+                .signIn(values, () => this.props.history.push('/'), () => this.props.hideLoader());
+        } else {
+            this
+                .props
+                .signUp(values, () => this.props.history.push('/'), () => this.props.hideLoader());
+        }
     }
 }
+const mapStateToProps = state => {
+    return {authError: state.auth.error}
+}
 
-export default compose(reduxForm({form: 'AuthForm'}), connect(null, null), withLoader)(Auth);
+export default compose(reduxForm({form: 'AuthForm'}), connect(mapStateToProps, actions), withLoader)(Auth);

@@ -41,6 +41,7 @@ class App extends Component {
             component={Shop}
             authenticated={this.props.isAuthenticated}/> */}
           <Route path='/' exact component={withAuthentication(Shop)}/>
+          <Route render={(props) => <Redirect from="*" to='/'/>}/>
         </Switch>
       </ShopLayout>
     )
