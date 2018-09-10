@@ -2,8 +2,10 @@ import * as actions from '../actions/action-types';
 import _ from 'lodash';
 
 const initialState = {
-    isAuthenticated: localStorage.getItem('token') ? true : false,
-    userId:  localStorage.getItem('uid') ||  null,
+    isAuthenticated: localStorage.getItem('token')
+        ? true
+        : false,
+    userId: localStorage.getItem('uid') || null,
     idToken: localStorage.getItem('token') || null,
     error: null
 }
@@ -25,6 +27,14 @@ export default function (state = initialState, action) {
                 userId: null,
                 idToken: null,
                 error: action.payload
+            };
+        case actions.SIGN_OUT:
+            return {
+                ...state,
+                isAuthenticated: false,
+                userId: null,
+                idToken: null,
+                error: null
             };
 
         default:

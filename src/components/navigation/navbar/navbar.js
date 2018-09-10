@@ -1,6 +1,7 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom';
 import Logo from '../../../assets/imgs/logo.png';
+import SignOutButton from '../../../containers/auth/sign-out-button/sign-out-button';
 
 function Navbar(props) {
     return (
@@ -22,17 +23,13 @@ function Navbar(props) {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <NavLink to='/' exact className="nav-link" activeClassName="active">Fast Food</NavLink>
-                    </li>
-                    {/* <li className="nav-item">
-                        <NavLink to='/orders' className="nav-link" activeClassName="active">Orders</NavLink>
+                        <NavLink to='/' exact className="nav-link" activeClassName="active">Order Food</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink to='/auth' className="nav-link" activeClassName="active">Sign In</NavLink>
-                    </li> */}
-
-
+                        <NavLink to='/orders' className="nav-link" activeClassName="active">Orders</NavLink>
+                    </li>
                 </ul>
+                <SignOutButton/>
 
             </div>
         </nav>
