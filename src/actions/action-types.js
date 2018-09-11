@@ -8,7 +8,9 @@ export const RESET_CART = 'RESET_CART';
 
 export const NEW_ORDER_REQUEST = 'NEW_ORDER_REQUEST';
 export const NEW_ORDER_SUCCESS = 'NEW_ORDER_SUCCESS';
-export const NEW_ORDER_FAIL = 'NEW_ORDER_FAIL';
+export const NEW_ORDER_ERROR = 'NEW_ORDER_ERROR';
+export const CLEAR_SHOP_MESSAGES = 'CLEAR_SHOP_MESSAGES';
+
 export const FETCH_ORDERS = 'FETCH_ORDERS';
 export const FETCH_ORDER = 'FETCH_ORDER';
 

@@ -12,7 +12,7 @@ export default class OrderBasket extends Component {
                     return (
                         <li className="list-group-item d-flex flex-row" key={name}>
                             <div className="list-item-img">
-                               {getItemComponent(name)}
+                                {getItemComponent(name)}
                             </div>
                             <div className="list-item-data">
                                 <div>Name:
@@ -33,35 +33,42 @@ export default class OrderBasket extends Component {
     }
 
     render() {
-        let items = null;
+        let itemsContent = null;
         let checkoutDisable = true;
         if (!this.props.orderItems || _.isEmpty(this.props.orderItems)) {
-            items = (
+            itemsContent = (
                 <div className="h-100 my-5">
                     <h5>Add some items</h5>
                 </div>
             )
             checkoutDisable = true;
         } else {
-            items = this.createOrderItemList();
+            itemsContent = this.createOrderItemList();
             checkoutDisable = false;
         }
 
         return (
-                <div className="card h-100">
-                    <div className="card-header bg-dark text-light d-flex justify-content-between">
-                        <div className="d-flex">
-                            <i className="material-icons">shopping_basket</i>
-                            <h4>Basket</h4>
-                        </div>
-                        <div className="d-flex">
-                            <button type="button" className="btn btn-primary btn-sm" disabled={checkoutDisable}>Checkout</button>
-                        </div>
+            <div className="card h-100">
+                <div className="card-header bg-dark text-light d-flex justify-content-between">
+                    <div className="d-flex">
+                        <i className="material-icons">shopping_basket</i>
+                        <h4>Basket</h4>
                     </div>
-                    <div className="card-body text-center">
-                        {items}
+                    <div className="d-flex">
+                        <div className="align-self-center mx-2">
+                            Total Price: ${this.props.totalPrice}
+                        </div>
+                        <button
+                            type="button"
+                            className="btn btn-primary btn-sm"
+                            disabled={checkoutDisable}
+                            onClick={() => this.props.showCheckout()}>Checkout</button>
                     </div>
                 </div>
+                <div className="card-body text-center">
+                    {itemsContent}
+                </div>
+            </div>
         )
     }
 }

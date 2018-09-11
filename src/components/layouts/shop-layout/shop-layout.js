@@ -1,15 +1,16 @@
 import React from 'react';
-import  './shop-layout.css';
+import './shop-layout.css';
 import Navbar from '../../navigation/navbar/navbar';
-
 
 const ShopLayout = (props) => {
     return (
         <div>
             <Navbar/>
-            <main className='content'>
-                {props.children}
-            </main>
+            <div className='content'>
+                <div className="container">
+                    {props.children}
+                </div>
+            </div>
         </div>
     )
 }

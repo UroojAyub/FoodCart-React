@@ -17,7 +17,11 @@ const initialState = {
         }
     },
     cartItems: null,
-    totalPrice: 0
+    totalPrice: 0,
+    userOrders: null,
+    loading: false,
+    success: null,
+    error: null
 }
 
 export default function (state = initialState, action) {
@@ -27,6 +31,16 @@ export default function (state = initialState, action) {
             return addItemToCart(state, action);
         case actions.REMOVE_CART_ITEM:
             return removeItemFromCart(state, action);
+        case actions.NEW_ORDER_REQUEST:
+            return { ...state, loading: true };
+        case actions.NEW_ORDER_SUCCESS:
+            return newUserOrderSuccess(state, action);
+        case actions.NEW_ORDER_ERROR:
+            return newUserOrderError(state, action);
+        case actions.RESET_CART:
+            return resetCart(state, action);
+        case actions.CLEAR_SHOP_MESSAGES:
+            return {...state, success:null, error:null};
         default:
             return state;
     }
@@ -85,7 +99,7 @@ const removeItemFromCart = (state, action) => {
                 cartItems: {
                     ..._.omit(state.cartItems, itemKey)
                 },
-                totalPrice:Math.round((state.totalPrice - cartItems[itemKey].price) * 100) / 100
+                totalPrice: Math.round((state.totalPrice - cartItems[itemKey].price) * 100) / 100
             };
         } else {
             return {
@@ -95,14 +109,41 @@ const removeItemFromCart = (state, action) => {
                     [itemKey]: {
                         ...state.cartItems[itemKey],
                         count: updatedCount
-                    },
+                    }
                 },
-                totalPrice:Math.round((state.totalPrice - cartItems[itemKey].price) * 100) / 100
+                totalPrice: Math.round((state.totalPrice - cartItems[itemKey].price) * 100) / 100
 
             };
         }
-    }
-    else {
+    } else {
         return state;
+    }
+}
+
+const newUserOrderSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        success: 'Order has been added successfully!',
+        userOrders: {
+            ...state.userOrders,
+            ...action.payload
+        }
+    };
+}
+
+const newUserOrderError = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        error: action.payload
+    }
+}
+
+const resetCart = (state, action) => {
+    return {
+        ...state,
+        cartItems: null,
+        totalPrice: 0
     }
 }

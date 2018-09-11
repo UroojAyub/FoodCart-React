@@ -19,7 +19,6 @@ function Fries() {
             </div>
 
             <div className="package">
-                <div className="bottom"></div>
             </div>
 
         </div>
