@@ -86,7 +86,8 @@ export const signUp = ({
 export const signOut = (callback) => dispatch => {
     localStorage.removeItem('uid');
     localStorage.removeItem('token');
-    dispatch({type: actions.SIGN_OUT, payload: null})
+    dispatch({type: actions.CLEAR_SHOP_MESSAGES, payload: null});
+    dispatch({type: actions.SIGN_OUT, payload: null});
     return auth
         .doSignOut()
         .then(() => {
