@@ -7,16 +7,23 @@ const initialState = {
         : false,
     userId: localStorage.getItem('uid') || null,
     idToken: localStorage.getItem('token') || null,
+    loading: false,
     error: null
 }
 
 export default function (state = initialState, action) {
     switch (action.type) {
+        case actions.AUTH_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
         case actions.AUTH_USER:
             const {userId, idToken} = action.payload;
             return {
                 ...state,
                 isAuthenticated: true,
+                loading: false,
                 userId,
                 idToken
             };
@@ -24,6 +31,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isAuthenticated: false,
+                loading: false,
                 userId: null,
                 idToken: null,
                 error: action.payload

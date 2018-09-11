@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 import {AUTH_MODE, SIGN_IN_FIELDS, SIGN_UP_FIELDS} from './auth-constants';
 import {Field, reduxForm} from 'redux-form';
 import _ from 'lodash';
-import withLoader from '../../hoc/withLoader/withLoader';
 import {compose} from 'redux';
 import * as actions from '../../actions/index';
 
@@ -119,17 +118,14 @@ class Auth extends Component {
     }
 
     onSubmit = (values) => {
-        this
-            .props
-            .showLoader();
         if (this.props.mode === AUTH_MODE.SIGN_IN) {
             this
                 .props
-                .signIn(values, () => this.props.history.push('/'), () => this.props.hideLoader());
+                .signIn(values, () => this.props.history.push('/'));
         } else {
             this
                 .props
-                .signUp(values, () => this.props.history.push('/'), () => this.props.hideLoader());
+                .signUp(values, () => this.props.history.push('/'));
         }
     }
 }
@@ -137,4 +133,4 @@ const mapStateToProps = state => {
     return {authError: state.auth.error}
 }
 
-export default compose(reduxForm({form: 'AuthForm'}), connect(mapStateToProps, actions), withLoader)(Auth);
+export default compose(reduxForm({form: 'AuthForm'}), connect(mapStateToProps, actions))(Auth);

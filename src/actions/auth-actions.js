@@ -4,7 +4,9 @@ import {auth} from '../config/firebase';
 export const signIn = ({
     email,
     password
-}, successCallback, errorCallback) => dispatch => {
+}, successCallback) => dispatch => {
+
+    dispatch({type: actions.AUTH_REQUEST, payload: null});
     return auth
         .doSignInWithEmailAndPassword(email, password)
         .then(data => {
@@ -29,7 +31,6 @@ export const signIn = ({
                         type: actions.AUTH_ERROR,
                         payload: error.message || 'Sign in failed'
                     })
-                    errorCallback();
                 })
         })
         .catch(error => {
@@ -38,14 +39,15 @@ export const signIn = ({
                 type: actions.AUTH_ERROR,
                 payload: error.message || 'Sign in failed'
             })
-            errorCallback();
         })
 }
 
 export const signUp = ({
     email,
     password
-}, successCallback, errorCallback) => dispatch => {
+}, successCallback) => dispatch => {
+
+    dispatch({type: actions.AUTH_REQUEST, payload: null});
     return auth
         .doCreateUserWithEmailAndPassword(email, password)
         .then(data => {
@@ -70,7 +72,6 @@ export const signUp = ({
                         type: actions.AUTH_ERROR,
                         payload: error.message || 'Sign up failed'
                     })
-                    errorCallback();
                 })
         })
         .catch(error => {
@@ -79,7 +80,6 @@ export const signUp = ({
                 type: actions.AUTH_ERROR,
                 payload: error.message || 'Sign up failed'
             })
-            errorCallback();
         })
 }
 
