@@ -32,7 +32,7 @@ export default function (state = initialState, action) {
         case actions.REMOVE_CART_ITEM:
             return removeItemFromCart(state, action);
         case actions.REQUEST_LOAD:
-            return requestLoading(state,action);
+            return requestLoading(state, action);
         case actions.FETCH_ORDERS_SUCCESS:
             return fetchOrdersSuccess(state, action);
         case actions.FETCH_ORDERS_ERROR:
@@ -41,10 +41,18 @@ export default function (state = initialState, action) {
             return newUserOrderSuccess(state, action);
         case actions.NEW_ORDER_ERROR:
             return newUserOrderError(state, action);
+        case actions.DELETE_ORDER_SUCCESS:
+            return deleteUserOrderSuccess(state, action);
+        case actions.DELETE_ORDER_ERROR:
+            return deleteUserOrderError(state, action);
         case actions.RESET_CART:
             return resetCart(state, action);
         case actions.CLEAR_SHOP_MESSAGES:
-            return {...state, success:null, error:null};
+            return {
+                ...state,
+                success: null,
+                error: null
+            };
         default:
             return state;
     }
@@ -153,11 +161,11 @@ const resetCart = (state, action) => {
 }
 
 const requestLoading = (state, action) => {
-    return { 
-        ...state, 
-        loading: true, 
-        success: null, 
-        error: null 
+    return {
+        ...state,
+        loading: true,
+        success: null,
+        error: null
     }
 }
 
@@ -166,7 +174,7 @@ const fetchOrdersSuccess = (state, action) => {
         ...state,
         loading: false,
         userOrders: action.payload,
-        error:null
+        error: null
     }
 }
 
@@ -177,4 +185,23 @@ const fetchOrdersError = (state, action) => {
         userOrders: {},
         error: action.payload
     };
+}
+
+const deleteUserOrderSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        userOrders: _.omit(state.userOrders, action.payload),
+        success: 'Order deleted successfully',
+        error: null
+    }
+}
+
+const deleteUserOrderError = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        success: null,
+        error: 'Order could not be deleted'
+    }
 }

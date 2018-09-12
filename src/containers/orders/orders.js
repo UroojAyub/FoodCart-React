@@ -21,7 +21,14 @@ class Orders extends Component {
         return (
             <ul className="list-group">
                 {_.map(list, (order, oid) => {
-                    return <li key={oid} className="list-group-item"><OrderListItem {...order}/></li>
+                    return (
+                        <li key={oid} className="list-group-item">
+                            <button
+                                onClick={() => this.props.deleteOrder(this.props.userId, oid)}
+                                className="btn btn-danger float-right">Delete</button>
+                            <OrderListItem {...order}/>
+                        </li>
+                    )
                 })}
             </ul>
         )
@@ -59,15 +66,19 @@ const mapStateToProps = state => {
         orderList: state.shop.userOrders,
         userId: state.auth.userId,
         loading: state.shop.loading,
-        showAlert: state.shop.error
+        showAlert: state.shop.error || state.shop.success
             ? true
             : false,
         alertType: state.shop.error
             ? 'alert-danger'
-            : '',
+            : state.shop.success
+                ? 'alert-success'
+                : '',
         alertMessage: state.shop.error
             ? state.shop.error
-            : ''
+            : state.shop.success
+                ? state.shop.success
+                : ''
     }
 }
 export default connect(mapStateToProps, actions)(Orders)

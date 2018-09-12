@@ -39,16 +39,16 @@ export const createNewOrder = (userId, order, successCallback) => (dispatch) => 
 
 export const fetchOrders = (userId) => dispatch => {
     dispatch({type: actions.REQUEST_LOAD, payload: null});
-    orderFB
+    return orderFB
         .getUserOrders(userId)
         .on('value', orders => {
             dispatch({
                 type: actions.FETCH_ORDERS_SUCCESS,
                 payload: orders.exists()
-                    ? _.orderBy(orders.val(), ['timestamp'], ['desc'])
+                    ? orders.val()
                     : {}
             });
-            console.log(orders.val());
+            console.log('fetchOrders', orders.val())
         }, error => {
             dispatch({type: actions.FETCH_ORDERS_ERROR, payload: 'Orders could not be fetched'});
             console.log(error)
@@ -56,7 +56,20 @@ export const fetchOrders = (userId) => dispatch => {
 
 }
 
+export const deleteOrder = (userId, orderId) => dispatch => {
+    dispatch({type: actions.REQUEST_LOAD, payload: null});
+    return orderFB
+        .deleteUserOrder(userId, orderId)
+        .then(text => {
+            dispatch({type: actions.DELETE_ORDER_SUCCESS, payload: orderId});
+        })
+        .catch(error => {
+            console.log(error);
+            dispatch({type: actions.DELETE_ORDER_ERROR, payload: null});
+        })
+
+}
+
 export const clearSuccessError = () => dispatch => {
     return dispatch({type: actions.CLEAR_SHOP_MESSAGES, payload: null})
 }
-
