@@ -1,5 +1,6 @@
 import * as actions from './action-types';
 import {orderFB} from '../config/firebase';
+import _ from 'lodash';
 
 export const addToCart = (item) => {
     return {type: actions.ADD_CART_ITEM, payload: {
@@ -35,6 +36,26 @@ export const createNewOrder = (userId, order,) => (dispatch) => {
         })
 }
 
+export const fetchOrders = (userId) => dispatch => {
+    dispatch({type: actions.FETCH_ORDERS_REQUEST, payload: null});
+    orderFB
+        .getUserOrders(userId)
+        .on('value', orders => {
+            dispatch({
+                type: actions.FETCH_ORDERS_SUCCESS,
+                payload: orders.exists()
+                    ? _.orderBy(orders.val(), ['timestamp'], ['desc'])
+                    : {}
+            });
+            console.log(orders.val());
+        }, error => {
+            dispatch({type: actions.FETCH_ORDERS_ERROR, payload: 'Orders could not be fetched'});
+            console.log(error)
+        })
+
+}
+
 export const clearSuccessError = () => dispatch => {
     return dispatch({type: actions.CLEAR_SHOP_MESSAGES, payload: null})
 }
+

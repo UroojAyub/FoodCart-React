@@ -31,6 +31,12 @@ export default function (state = initialState, action) {
             return addItemToCart(state, action);
         case actions.REMOVE_CART_ITEM:
             return removeItemFromCart(state, action);
+        case actions.FETCH_ORDERS_REQUEST:
+            return fetchOrdersRequest(state,action);
+        case actions.FETCH_ORDERS_SUCCESS:
+            return fetchOrdersSuccess(state, action);
+        case actions.FETCH_ORDERS_ERROR:
+            return fetchOrdersError(state, action);
         case actions.NEW_ORDER_REQUEST:
             return { ...state, loading: true };
         case actions.NEW_ORDER_SUCCESS:
@@ -146,4 +152,31 @@ const resetCart = (state, action) => {
         cartItems: null,
         totalPrice: 0
     }
+}
+
+const fetchOrdersRequest = (state, action) => {
+    return { 
+        ...state, 
+        loading: true, 
+        success: null, 
+        error: null 
+    }
+}
+
+const fetchOrdersSuccess = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        userOrders: action.payload,
+        error:null
+    }
+}
+
+const fetchOrdersError = (state, action) => {
+    return {
+        ...state,
+        loading: false,
+        userOrders: {},
+        error: action.payload
+    };
 }
