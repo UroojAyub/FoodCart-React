@@ -14,7 +14,7 @@ export const removeFromCart = (item) => {
         }}
 }
 
-export const createNewOrder = (userId, order,) => (dispatch) => {
+export const createNewOrder = (userId, order, successCallback) => (dispatch) => {
 
     dispatch({type: actions.REQUEST_LOAD, payload: null});
 
@@ -29,6 +29,7 @@ export const createNewOrder = (userId, order,) => (dispatch) => {
                 }
             });
             dispatch({type: actions.RESET_CART, payload: null});
+            successCallback();
         })
         .catch(error => {
             dispatch({type: actions.NEW_ORDER_ERROR, payload: 'Order could not be placed! Please try again'});

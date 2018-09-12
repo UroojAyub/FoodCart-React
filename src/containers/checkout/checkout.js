@@ -33,7 +33,7 @@ class Checkout extends Component {
         }
         this
             .props
-            .createNewOrder(this.props.userId, order)
+            .createNewOrder(this.props.userId, order, ()=>this.props.onBack())
     }
 
     render() {
