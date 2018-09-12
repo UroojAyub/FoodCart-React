@@ -7,6 +7,8 @@ import {compose} from 'redux';
 import withLoader from '../../hoc/withLoader/withLoader';
 import _ from 'lodash';
 import Checkout from '../checkout/checkout';
+import Loader from '../../components/ui/loader/loader';
+import Alert from '../../components/ui/alert/alert';
 
 class Shop extends Component {
     constructor(props) {
@@ -16,8 +18,12 @@ class Shop extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.clearSuccessError();
+    }
+
     componentWillUpdate(props, state) {
-        console.log(props.cartItems,props.totalPrice)
+        console.log(props.cartItems, props.totalPrice)
     }
 
     showCheckoutForm = () => {
@@ -34,13 +40,20 @@ class Shop extends Component {
 
     render() {
         return (
-                    <div className="row">
-                        <div className="col-md-6 flex-column">
+            <div>
+                <Loader show={this.props.loading}/>
+                <Alert
+                    show={this.props.showAlert}
+                    type={this.props.alertType}
+                    message={this.props.alertMessage}
+                    onClose={this.props.clearSuccessError}/>
+                <div className="row">
+                    <div className="col-md-6 flex-column">
                         <OrderBasket
                             orderItems={this.props.cartItems}
                             showCheckout={this.showCheckoutForm}
                             totalPrice={this.props.totalPrice}/>
-                        </div>
+                    </div>
                     <div className="col-md-6 flex-column">
                         {this.state.showCheckout
                             ? <Checkout onBack={this.hideCheckoutForm}/>
@@ -49,6 +62,7 @@ class Shop extends Component {
                                 orderItems={this.props.cartItems}
                                 onAddItem={this.props.addToCart}
                                 onRemoveItem={this.props.removeFromCart}/>)}
+                    </div>
                 </div>
             </div>
         )
@@ -56,7 +70,25 @@ class Shop extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {items: state.shop.itemsList, cartItems: state.shop.cartItems, totalPrice: state.shop.totalPrice}
+    return {
+        items: state.shop.itemsList,
+        cartItems: state.shop.cartItems,
+        totalPrice: state.shop.totalPrice,
+        loading: state.shop.loading,
+        showAlert: state.shop.error || state.shop.success
+            ? true
+            : false,
+        alertType: state.shop.error
+            ? 'alert-danger'
+            : state.shop.success
+                ? 'alert-success'
+                : '',
+        alertMessage: state.shop.error
+            ? state.shop.error
+            : state.shop.success
+                ? state.shop.success
+                : ''
+    }
 }
 
 export default compose(connect(mapStateToProps, actions), withLoader)(Shop)

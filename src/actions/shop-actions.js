@@ -16,7 +16,7 @@ export const removeFromCart = (item) => {
 
 export const createNewOrder = (userId, order,) => (dispatch) => {
 
-    dispatch({type: actions.NEW_ORDER_REQUEST, payload: null});
+    dispatch({type: actions.REQUEST_LOAD, payload: null});
 
     return orderFB
         .pushNewOrder(userId, order)
@@ -37,7 +37,7 @@ export const createNewOrder = (userId, order,) => (dispatch) => {
 }
 
 export const fetchOrders = (userId) => dispatch => {
-    dispatch({type: actions.FETCH_ORDERS_REQUEST, payload: null});
+    dispatch({type: actions.REQUEST_LOAD, payload: null});
     orderFB
         .getUserOrders(userId)
         .on('value', orders => {
