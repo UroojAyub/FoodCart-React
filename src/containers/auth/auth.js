@@ -7,6 +7,7 @@ import {Field, reduxForm} from 'redux-form';
 import _ from 'lodash';
 import {compose} from 'redux';
 import * as actions from '../../actions/index';
+import Loader from '../../components/ui/loader/loader';
 
 class Auth extends Component {
 
@@ -93,6 +94,7 @@ class Auth extends Component {
 
         return (
             <div className="container">
+                <Loader show={this.props.loading}/>
                 <div className="row">
                     <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
                         <div className="card my-5 px-2">
@@ -130,7 +132,7 @@ class Auth extends Component {
     }
 }
 const mapStateToProps = state => {
-    return {authError: state.auth.error}
+    return {authError: state.auth.error, loading: state.auth.loading}
 }
 
 export default compose(reduxForm({form: 'AuthForm'}), connect(mapStateToProps, actions))(Auth);

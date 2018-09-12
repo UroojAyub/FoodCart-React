@@ -18,7 +18,6 @@ class App extends Component {
   render() {
     const authLayoutRoutes = (
       <AuthLayout>
-        <Loader show={this.props.authLoading}/>
         <Switch>
           <Route
             path='/signin'
@@ -64,12 +63,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
 
   return {
-    isAuthenticated: state.auth.isAuthenticated,
-    authLoading: state.auth.loading,
-    shopLoading: state.shop.loading,
-    showAlert: (state.shop.error || state.shop.success ? true : false),
-    alertType: (state.shop.error ? 'alert-danger' : (state.shop.success ? 'alert-success' : '')),
-    alertMessage: (state.shop.error ? state.shop.error : (state.shop.success ? state.shop.success : ''))
+    isAuthenticated: state.auth.isAuthenticated
   }
 }
 
