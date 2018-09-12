@@ -1,5 +1,4 @@
 import * as actions from '../actions/action-types';
-import _ from 'lodash';
 
 const initialState = {
     isAuthenticated: localStorage.getItem('token')

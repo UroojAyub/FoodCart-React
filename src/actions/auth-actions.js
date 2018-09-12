@@ -94,3 +94,29 @@ export const signOut = (callback) => dispatch => {
             callback();
         })
 }
+
+export const observeAuthState = () => dispatch => {
+    auth.onAuthStateChanged(user => {
+        console.log(user);
+        if (user) {
+            user
+                .getIdToken()
+                .then(token => {
+                    localStorage.setItem('uid', user.uid)
+                    localStorage.setItem('token', token)
+                    dispatch({
+                        type: actions.AUTH_USER,
+                        payload: {
+                            userId: user.uid,
+                            idToken: token
+                        }
+                    })
+                })
+        } else {
+            dispatch({type: actions.AUTH_ERROR, payload: null})
+        }
+    }, error => {
+        console.log(error);
+        dispatch({type: actions.AUTH_ERROR, payload: null})
+    });
+};
