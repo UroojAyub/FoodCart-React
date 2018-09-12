@@ -18,7 +18,6 @@ class App extends Component {
   render() {
     const authLayoutRoutes = (
       <AuthLayout>
-        <Loader show={this.props.authLoading}/>
         <Switch>
           <Route
             path='/signin'
@@ -62,8 +61,7 @@ class App extends Component {
 const mapStateToProps = (state) => {
 
   return {
-    isAuthenticated: state.auth.isAuthenticated,
-    authLoading: state.auth.loading
+    isAuthenticated: state.auth.isAuthenticated
   }
 }
 
